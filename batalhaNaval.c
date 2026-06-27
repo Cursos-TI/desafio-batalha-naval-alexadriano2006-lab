@@ -3,6 +3,10 @@
 #define TAM_TABULEIRO 10
 #define TAM_NAVIO 3
 
+#define TAM_NAVIO 3
+
+#define TAM_HABILIDADE 5
+
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
@@ -164,17 +168,11 @@ int main()
         return 0;
     }
 
-    // Exibe o tabuleiro completo no console.
-    for (linhas = 0; linhas < TAM_TABULEIRO; linhas++)
-    {
-        for (colunas = 0; colunas < TAM_TABULEIRO; colunas++)
-        {
-            printf("%d ", tabuleiro[linhas][colunas]);
-        }
+    
 
-        // Avança para a próxima linha do tabuleiro.
-        printf("\n");
-    }
+
+
+
 
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
@@ -185,6 +183,110 @@ int main()
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz e octaedro.
     // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas.
     // Sugestão: Exiba o tabuleiro com as áreas afetadas.
+
+    // Matrizes das habilidades especiais.
+    int cone[TAM_HABILIDADE][TAM_HABILIDADE];
+    int cruz[TAM_HABILIDADE][TAM_HABILIDADE];
+    int octaedro[TAM_HABILIDADE][TAM_HABILIDADE];
+
+    // Coordenadas onde cada habilidade será aplicada.
+    int linhaCone = 2;
+    int colunaCone = 7;
+
+    int linhaCruz = 6;
+    int colunaCruz = 3;
+
+    int linhaOctaedro = 7;
+    int colunaOctaedro = 8;
+
+    // Monta a habilidade Cone
+for (linhas = 0; linhas < TAM_HABILIDADE; linhas++)
+{
+    for (colunas = 0; colunas < TAM_HABILIDADE; colunas++)
+    {
+        if (colunas >= 2 - linhas && colunas <= 2 + linhas)
+        {
+            cone[linhas][colunas] = 1;
+        }
+        else
+        {
+            cone[linhas][colunas] = 0;
+        }
+    }
+}
+
+// Monta a habilidade Cruz
+for (linhas = 0; linhas < TAM_HABILIDADE; linhas++)
+{
+    for (colunas = 0; colunas < TAM_HABILIDADE; colunas++)
+    {
+        if (linhas == 2 || colunas == 2)
+        {
+            cruz[linhas][colunas] = 1;
+        }
+        else
+        {
+            cruz[linhas][colunas] = 0;
+        }
+    }
+}
+
+
+// Monta a habilidade Octaedro
+for (linhas = 0; linhas < TAM_HABILIDADE; linhas++)
+{
+    for (colunas = 0; colunas < TAM_HABILIDADE; colunas++)
+    {
+        if ((linhas == 0 && colunas == 2) ||
+            (linhas == 1 && colunas >= 1 && colunas <= 3) ||
+            (linhas == 2) ||
+            (linhas == 3 && colunas >= 1 && colunas <= 3) ||
+            (linhas == 4 && colunas == 2))
+        {
+            octaedro[linhas][colunas] = 1;
+        }
+        else
+        {
+            octaedro[linhas][colunas] = 0;
+        }
+    }
+}
+
+// Sobreposição do cone
+
+for (linhas = 0; linhas < TAM_HABILIDADE; linhas++)
+{
+    for (colunas = 0; colunas < TAM_HABILIDADE; colunas++)
+    {
+        int linhaTabuleiro = linhaCone - 2 + linhas;
+        int colunaTabuleiro = colunaCone - 2 + colunas;
+
+        if (linhaTabuleiro >= 0 &&
+            linhaTabuleiro < TAM_TABULEIRO &&
+            colunaTabuleiro >= 0 &&
+            colunaTabuleiro < TAM_TABULEIRO)
+        {
+            if (cone[linhas][colunas] == 1 &&
+                tabuleiro[linhaTabuleiro][colunaTabuleiro] == 0)
+            {
+                tabuleiro[linhaTabuleiro][colunaTabuleiro] = 5;
+            }
+        }
+    }
+}
+
+
+// Exibe o tabuleiro completo no console.
+    for (linhas = 0; linhas < TAM_TABULEIRO; linhas++)
+    {
+        for (colunas = 0; colunas < TAM_TABULEIRO; colunas++)
+        {
+            printf("%d ", tabuleiro[linhas][colunas]);
+        }
+
+        // Avança para a próxima linha do tabuleiro.
+        printf("\n");
+    }
 
     // Exemplos de exibição das habilidades:
     // Exemplo para habilidade em cone:
